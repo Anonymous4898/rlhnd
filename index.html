@@ -22,9 +22,15 @@
     font-family: "Fraunces", Georgia, serif; font-weight: 650;
     font-size: clamp(34px, 5vw, 52px); line-height: 1.15; text-wrap: balance;
   }
+  .logo { width: clamp(220px, 30vw, 340px); height: auto; display: block; margin: 0 auto; }
+  .subtitle {
+    font-family: "Fraunces", Georgia, serif; font-weight: 600;
+    font-size: clamp(22px, 3vw, 32px); line-height: 1.25; text-wrap: balance;
+    margin-top: 18px;
+  }
   .hand-rule {
     width: 120px; height: 4px; margin: 22px auto 0; border-radius: 2px;
-    background: linear-gradient(90deg, var(--left) 0 50%, var(--right) 50% 100%);
+    background: var(--ours);
   }
   .authors { margin-top: 20px; color: var(--muted); }
   .authors .anon { font-style: italic; }
@@ -35,7 +41,7 @@
     padding: 8px 20px; transition: background .15s, color .15s;
   }
   .btn:hover { background: var(--ink); color: var(--bg); }
-  .btn:focus-visible { outline: 2px solid var(--left); outline-offset: 2px; }
+  .btn:focus-visible { outline: 2px solid var(--ours); outline-offset: 2px; }
   section { margin-top: 76px; }
   h2 {
     font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 27px;
@@ -83,7 +89,8 @@
 <div class="wrap">
 
 <header>
-  <h1>RLHND: Hand Pose and Tactile Estimation<br>from Monocular Video</h1>
+  <img class="logo" src="logo.svg" alt="RLHND">
+  <h1 class="subtitle">Realistic Hand Motion and Tactile<br>Reconstruction from Monocular Video</h1>
   <div class="hand-rule" aria-hidden="true"></div>
   <p class="authors"><span class="anon">Anonymous authors &mdash; under review</span></p>
   <div class="btns">
