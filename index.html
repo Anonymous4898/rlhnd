@@ -96,9 +96,27 @@
 <section class="abstract">
   <h2>Abstract</h2>
   <p>
-    RLHND estimates bimanual MANO hand pose, metric camera-space translation, and per-vertex
-    contact and force from a monocular video, built on a clean-latent video-diffusion encoder
-    with an anatomically constrained pose parameterization and a decoupled tactile expert stream.
+    Recently, approaches to utilize human video datasets for robot policy training have become
+    widely prevalent. However, inaccurate hand pose estimation and the lack of physical
+    information, e.g., tactile information, make it difficult to effectively leverage human
+    videos for robot policy training. To this end, we propose a novel hand tracking model named
+    RLHND, which can yield both hand pose estimation and realistic tactile estimation from
+    monocular egocentric videos. RLHND leverages the clean-latent features from a pre-trained
+    foundation model, i.e., Cosmos&nbsp;3, to capture strong priors on hand motion and
+    hand-object interactions. For pose estimation, RLHND (i) predicts hand poses with
+    anatomically plausible 21-DoF joint angles, and (ii) enables optional conditioning on the
+    shape parameter, which keeps the hand shape consistent within the same video and even across
+    videos recorded by the same actor. For tactile estimation, we apply one-way attention, which
+    enables tactile estimation by referring to both the clean-latent encoder features and the
+    cached pose-stream features, while leaving the pose predictions bit-identical. Moreover, we
+    propose a novel mesh-aligned vertex feature extraction layer that spreads information from
+    sparse transformer tokens to dense MANO vertices. RLHND achieves state-of-the-art
+    performance across three benchmark datasets for pose estimation, while also achieving the
+    best performance in contact and force estimation. Moreover, we demonstrate that retargeting
+    with predicted keypoints from RLHND most closely matches those obtained with oracle
+    keypoints. The code will be publicly released here after the review.
+  </p>
+  <p style="margin-top:14px">
     For each clip below, every method's prediction is overlaid on the input video, and replayed
     in the world frame with the wrist trajectory, using the ground-truth camera trajectory to
     factor out head motion.
