@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RLHND</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #FAFAF8; --ink: #17191E; --muted: #6C7076; --line: #E3E4E6;
+    --left: #1C5BDC; --right: #D63B2F; --ours: #50EBCE; --card: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px; line-height: 1.6;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px 96px; }
+  header { text-align: center; padding: 72px 0 8px; }
+  h1 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 650;
+    font-size: clamp(34px, 5vw, 52px); line-height: 1.15; text-wrap: balance;
+  }
+  .hand-rule {
+    width: 120px; height: 4px; margin: 22px auto 0; border-radius: 2px;
+    background: linear-gradient(90deg, var(--left) 0 50%, var(--right) 50% 100%);
+  }
+  .authors { margin-top: 20px; color: var(--muted); }
+  .authors .anon { font-style: italic; }
+  .btns { display: flex; gap: 12px; justify-content: center; margin-top: 26px; flex-wrap: wrap; }
+  .btn {
+    font-family: "IBM Plex Mono", monospace; font-size: 14px; text-decoration: none;
+    color: var(--ink); border: 1px solid var(--ink); border-radius: 999px;
+    padding: 8px 20px; transition: background .15s, color .15s;
+  }
+  .btn:hover { background: var(--ink); color: var(--bg); }
+  .btn:focus-visible { outline: 2px solid var(--left); outline-offset: 2px; }
+  section { margin-top: 76px; }
+  h2 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 27px;
+    margin-bottom: 6px; text-wrap: balance;
+  }
+  .sub { color: var(--muted); font-size: 15px; margin-bottom: 18px; max-width: 78ch; }
+  .abstract { text-align: center; }
+  .abstract p { color: #33363C; max-width: 66ch; margin: 0 auto; }
+  .legend {
+    display: flex; gap: 22px; justify-content: center; margin-top: 14px; flex-wrap: wrap;
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--muted);
+  }
+  .legend .sw { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 7px; vertical-align: -1px; }
+  .clip { margin-top: 54px; }
+  .clip-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 4px; }
+  .clip-head h3 { font-family: "Fraunces", Georgia, serif; font-size: 21px; font-weight: 600; }
+  .rowlabel {
+    font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--muted);
+    margin: 16px 0 8px; letter-spacing: .04em; text-transform: uppercase;
+  }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  figure {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+  figure.ours { border: 3px solid var(--ours); box-shadow: 0 0 0 1px var(--ours); }
+  figure video { width: 100%; display: block; background: #fff; aspect-ratio: auto; }
+  figcaption {
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted);
+    padding: 7px 11px; border-top: 1px solid var(--line);
+  }
+  figure.ours figcaption { color: var(--ink); font-weight: 500; background: rgba(80, 235, 206, 0.12); border-top-color: var(--ours); }
+  .placeholder {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    color: var(--muted); font-size: 13px; padding: 18px; min-height: 120px;
+    font-family: "IBM Plex Mono", monospace;
+  }
+  .note { color: var(--muted); font-size: 15px; margin-top: 12px; max-width: 78ch; }
+  footer { margin-top: 96px; text-align: center; color: var(--muted); font-size: 14px; }
+  footer .hand-rule { width: 60px; margin-bottom: 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>RLHND: Hand Pose and Tactile Estimation<br>from Monocular Video</h1>
+  <div class="hand-rule" aria-hidden="true"></div>
+  <p class="authors"><span class="anon">Anonymous authors &mdash; under review</span></p>
+  <div class="btns">
+    <a class="btn" href="#" aria-disabled="true">Paper (soon)</a>
+    <a class="btn" href="#" aria-disabled="true">Code (soon)</a>
+    <a class="btn" href="#results">Results</a>
+  </div>
+</header>
+
+<section class="abstract">
+  <h2>Abstract</h2>
+  <p>
+    RLHND estimates bimanual MANO hand pose, metric camera-space translation, and per-vertex
+    contact and force from a monocular video, built on a clean-latent video-diffusion encoder
+    with an anatomically constrained pose parameterization and a decoupled tactile expert stream.
+    For each clip below, every method's prediction is overlaid on the input video, and replayed
+    in the world frame with the wrist trajectory, using the ground-truth camera trajectory to
+    factor out head motion.
+  </p>
+  <div class="legend">
+    <span><span class="sw" style="background:var(--left)"></span>left hand</span>
+    <span><span class="sw" style="background:var(--right)"></span>right hand</span>
+    <span><span class="sw" style="background:var(--ours)"></span>our output</span>
+  </div>
+</section>
+
+<section id="results">
+  <h2>Qualitative comparison</h2>
+  <p class="sub">Top block: predicted meshes overlaid on the input video. Bottom block: the same
+  predictions replayed in the world frame &mdash; the growing tube is the wrist trajectory, so
+  temporal depth drift shows up as spurious arcs even when the overlay looks plausible.</p>
+
+  <!-- ================= ARCTIC ================= -->
+  <div class="clip">
+    <div class="clip-head"><h3>ARCTIC ego &mdash; box grab</h3></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/arctic1_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/arctic1_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/arctic1_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/arctic1_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/arctic1_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/arctic1_handflow_2d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/arctic1_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/arctic1_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/arctic1_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth</figcaption></figure>
+      <figure><video src="videos/arctic1_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/arctic1_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/arctic1_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/arctic1_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/arctic1_handflow_3d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/arctic1_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/arctic1_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- ================= HOT3D ARIA ================= -->
+  <div class="clip">
+    <div class="clip-head"><h3>HOT3D Aria &mdash; kitchen manipulation</h3></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/aria11_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/aria11_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/aria11_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/aria11_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/aria11_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/aria11_handflow_2d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/aria11_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/aria11_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/aria11_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth</figcaption></figure>
+      <figure><video src="videos/aria11_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/aria11_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/aria11_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/aria11_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/aria11_handflow_3d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/aria11_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/aria11_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- ================= EGODEX ================= -->
+  <div class="clip">
+    <div class="clip-head"><h3>EgoDex &mdash; arranging dominoes</h3></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/egodex1_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/egodex1_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex1_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex1_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex1_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/egodex1_handflow_2d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex1_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex1_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><div class="placeholder">ground-truth world track unavailable for this clip</div><figcaption>Ground truth</figcaption></figure>
+      <figure><video src="videos/egodex1_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex1_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex1_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex1_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/egodex1_handflow_3d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex1_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex1_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <p class="note">
+      The hand is nearly static in the world during this sub-clip: the true wrist path is about
+      1&nbsp;cm long, so the arcs traced by the baselines are almost entirely temporal depth drift.
+    </p>
+  </div>
+</section>
+
+<section id="failures">
+  <h2>Where the base tracker breaks</h2>
+  <p class="sub">Clips selected by the largest per-window error gap between the retrained ACE-Ego-Hand baseline and RLHND (wrist-aligned MPJPE over ground-truth hand frames). The same encoder-budget baseline that looks competitive on average degrades sharply on these windows, while RLHND stays stable.</p>
+  <div class="clip">
+    <div class="clip-head"><h3>HOT3D Aria &mdash; failure case</h3><span class="chip">RLHND 25.6 mm</span><span class="chip">ACE-Ego-Hand 59.7 mm</span></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/aria722_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/aria722_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/aria722_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/aria722_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/aria722_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/aria722_handflow_2d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/aria722_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/aria722_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/aria722_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth</figcaption></figure>
+      <figure><video src="videos/aria722_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/aria722_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/aria722_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/aria722_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/aria722_handflow_3d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/aria722_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/aria722_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+  <div class="clip">
+    <div class="clip-head"><h3>HOT3D Quest &mdash; failure case</h3><span class="chip">RLHND 30.7 mm</span><span class="chip">ACE-Ego-Hand 62.8 mm</span></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/quest561_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/quest561_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/quest561_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/quest561_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/quest561_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/quest561_handflow_2d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/quest561_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/quest561_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/quest561_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth</figcaption></figure>
+      <figure><video src="videos/quest561_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/quest561_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/quest561_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/quest561_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/quest561_handflow_3d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/quest561_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/quest561_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+  <div class="clip">
+    <div class="clip-head"><h3>ARCTIC ego &mdash; failure case</h3><span class="chip">RLHND 27.4 mm</span><span class="chip">ACE-Ego-Hand 43.6 mm</span></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/arctic21_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/arctic21_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/arctic21_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/arctic21_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/arctic21_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/arctic21_handflow_2d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/arctic21_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/arctic21_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/arctic21_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth</figcaption></figure>
+      <figure><video src="videos/arctic21_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/arctic21_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/arctic21_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/arctic21_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/arctic21_handflow_3d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/arctic21_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/arctic21_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="retargeting">
+  <h2>Retargeting to robot hands</h2>
+  <p class="sub">Predicted hand motion retargeted to four dexterous right hands with DexPilot vector retargeting (identical solver settings for every method; the low-pass filter is disabled so smoothness reflects the tracker, not the filter). Teal hands follow RLHND predictions; grey hands follow the ACE-Ego-Hand baseline on the same clip.</p>
+  <div class="clip">
+    <div class="clip-head"><h3>HOT3D Aria clip &mdash; four embodiments</h3><span class="chip">RLHND (ours)</span></div>
+    <div class="grid">
+      <figure class="ours"><video src="videos/aria11_rlhnd_wuji.mp4" autoplay loop muted playsinline></video><figcaption>WUJI v2 &middot; RLHND</figcaption></figure>
+      <figure class="ours"><video src="videos/aria11_rlhnd_allex.mp4" autoplay loop muted playsinline></video><figcaption>ALLEX &middot; RLHND</figcaption></figure>
+      <figure class="ours"><video src="videos/aria11_rlhnd_inspire.mp4" autoplay loop muted playsinline></video><figcaption>Inspire RH56 &middot; RLHND</figcaption></figure>
+      <figure class="ours"><video src="videos/aria11_rlhnd_shadow.mp4" autoplay loop muted playsinline></video><figcaption>Shadow &middot; RLHND</figcaption></figure>
+    </div>
+    <div class="rowlabel">same clip, base tracker</div>
+    <div class="grid">
+      <figure><video src="videos/aria11_ace_wuji.mp4" autoplay loop muted playsinline></video><figcaption>WUJI v2 &middot; ACE-Ego-Hand</figcaption></figure>
+      <figure><video src="videos/aria11_ace_allex.mp4" autoplay loop muted playsinline></video><figcaption>ALLEX &middot; ACE-Ego-Hand</figcaption></figure>
+      <figure><video src="videos/aria11_ace_inspire.mp4" autoplay loop muted playsinline></video><figcaption>Inspire RH56 &middot; ACE-Ego-Hand</figcaption></figure>
+      <figure><video src="videos/aria11_ace_shadow.mp4" autoplay loop muted playsinline></video><figcaption>Shadow &middot; ACE-Ego-Hand</figcaption></figure>
+    </div>
+  </div>
+  <div class="clip">
+    <div class="clip-head"><h3>ARCTIC ego clip &mdash; four embodiments</h3><span class="chip">RLHND (ours)</span></div>
+    <div class="grid">
+      <figure class="ours"><video src="videos/arctic1_rlhnd_wuji.mp4" autoplay loop muted playsinline></video><figcaption>WUJI v2 &middot; RLHND</figcaption></figure>
+      <figure class="ours"><video src="videos/arctic1_rlhnd_allex.mp4" autoplay loop muted playsinline></video><figcaption>ALLEX &middot; RLHND</figcaption></figure>
+      <figure class="ours"><video src="videos/arctic1_rlhnd_inspire.mp4" autoplay loop muted playsinline></video><figcaption>Inspire RH56 &middot; RLHND</figcaption></figure>
+      <figure class="ours"><video src="videos/arctic1_rlhnd_shadow.mp4" autoplay loop muted playsinline></video><figcaption>Shadow &middot; RLHND</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="egodex">
+  <h2>EgoDex test set</h2>
+  <p class="sub">One representative window per EgoDex test sequence (more coming). EgoDex has no ground-truth MANO, so the ground-truth column shows its ARKit hand-tracking labels replayed as a 21-joint skeleton; these labels can lag or freeze during fast motion, so treat that column as indicative rather than exact.</p>
+  <div class="clip">
+    <div class="clip-head"><h3>EgoDex &mdash; add / remove lid</h3></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/egodex0_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/egodex0_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex0_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex0_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex0_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><div class="placeholder">rendering</div><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex0_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex0_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/egodex0_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth (ARKit)</figcaption></figure>
+      <figure><video src="videos/egodex0_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex0_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex0_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex0_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><div class="placeholder">rendering</div><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex0_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex0_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+  <div class="clip">
+    <div class="clip-head"><h3>EgoDex &mdash; furniture bench, chair</h3></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/egodex2_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/egodex2_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex2_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex2_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex2_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/egodex2_handflow_2d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex2_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex2_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/egodex2_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth (ARKit)</figcaption></figure>
+      <figure><video src="videos/egodex2_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex2_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex2_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex2_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/egodex2_handflow_3d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex2_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex2_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+  <div class="clip">
+    <div class="clip-head"><h3>EgoDex &mdash; furniture bench, drawer</h3></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/egodex3_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/egodex3_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex3_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex3_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex3_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><div class="placeholder">rendering</div><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex3_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex3_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/egodex3_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth (ARKit)</figcaption></figure>
+      <figure><video src="videos/egodex3_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex3_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex3_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex3_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><div class="placeholder">rendering</div><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex3_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex3_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+  <div class="clip">
+    <div class="clip-head"><h3>EgoDex &mdash; furniture bench, lamp</h3></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/egodex4_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/egodex4_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex4_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex4_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex4_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><div class="placeholder">rendering</div><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex4_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex4_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/egodex4_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth (ARKit)</figcaption></figure>
+      <figure><video src="videos/egodex4_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex4_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex4_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex4_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/egodex4_handflow_3d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex4_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex4_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+  <div class="clip">
+    <div class="clip-head"><h3>EgoDex &mdash; furniture bench, stool</h3></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/egodex7_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/egodex7_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex7_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex7_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex7_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><div class="placeholder">rendering</div><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex7_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex7_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/egodex7_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth (ARKit)</figcaption></figure>
+      <figure><video src="videos/egodex7_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex7_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex7_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex7_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><div class="placeholder">rendering</div><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex7_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex7_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+  <div class="clip">
+    <div class="clip-head"><h3>EgoDex &mdash; assembling legos</h3></div>
+    <div class="rowlabel">video overlay</div>
+    <div class="grid">
+      <figure><video src="videos/egodex11_original.mp4" autoplay loop muted playsinline></video><figcaption>Original</figcaption></figure>
+      <figure><video src="videos/egodex11_hamer_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex11_wilor_2d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex11_hawor_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex11_haptic_2d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/egodex11_handflow_2d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex11_dreamhand_2d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex11_rlhnd_2d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+    <div class="rowlabel">world-frame trajectory</div>
+    <div class="grid">
+      <figure><video src="videos/egodex11_gt_3d.mp4" autoplay loop muted playsinline></video><figcaption>Ground truth (ARKit)</figcaption></figure>
+      <figure><video src="videos/egodex11_hamer_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaMeR</figcaption></figure>
+      <figure><video src="videos/egodex11_wilor_3d.mp4" autoplay loop muted playsinline></video><figcaption>WiLoR</figcaption></figure>
+      <figure><video src="videos/egodex11_hawor_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaWoR</figcaption></figure>
+      <figure><video src="videos/egodex11_haptic_3d.mp4" autoplay loop muted playsinline></video><figcaption>HaPTIC</figcaption></figure>
+      <figure><video src="videos/egodex11_handflow_3d.mp4" autoplay loop muted playsinline></video><figcaption>HandFlow</figcaption></figure>
+      <figure><video src="videos/egodex11_dreamhand_3d.mp4" autoplay loop muted playsinline></video><figcaption>ACE-Ego-Hand</figcaption></figure>
+      <figure class="ours"><video src="videos/egodex11_rlhnd_3d.mp4" autoplay loop muted playsinline></video><figcaption>RLHND (ours)</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="hand-rule" aria-hidden="true"></div>
+  Anonymous project page &mdash; videos rendered from the RLHND evaluation pipeline.
+</footer>
+
+</div>
+</body>
+</html>
