@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RLHND</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root {
     --bg: #FAFAF8; --ink: #17191E; --muted: #6C7076; --line: #E3E4E6;
@@ -13,18 +14,21 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background: var(--bg); color: var(--ink);
-    font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-feature-settings: "cv05" 1, "ss03" 1;   /* single-storey l, rounded quotes */
     font-size: 17px; line-height: 1.6;
   }
   .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px 96px; }
   header { text-align: center; padding: 72px 0 8px; }
   h1 {
-    font-family: "Fraunces", Georgia, serif; font-weight: 650;
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-weight: 700;
+    letter-spacing: -0.022em;
     font-size: clamp(34px, 5vw, 52px); line-height: 1.15; text-wrap: balance;
   }
   .logo { width: clamp(220px, 30vw, 340px); height: auto; display: block; margin: 0 auto; }
   .subtitle {
-    font-family: "Fraunces", Georgia, serif; font-weight: 600;
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-weight: 600;
+    letter-spacing: -0.018em;
     font-size: clamp(22px, 3vw, 32px); line-height: 1.25; text-wrap: balance;
     margin-top: 18px;
   }
@@ -44,7 +48,8 @@
   .btn:focus-visible { outline: 2px solid var(--ours); outline-offset: 2px; }
   section { margin-top: 76px; }
   h2 {
-    font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 27px;
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-weight: 600;
+    font-size: 26px; letter-spacing: -0.02em;
     margin-bottom: 6px; text-wrap: balance;
   }
   .sub { color: var(--muted); font-size: 15px; margin-bottom: 18px; max-width: 78ch; }
@@ -62,7 +67,8 @@
     background: rgba(80, 235, 206, 0.16); border: 1px solid var(--ours);
     border-radius: 999px; padding: 2px 12px;
   }
-  .clip-head h3 { font-family: "Fraunces", Georgia, serif; font-size: 21px; font-weight: 600; }
+  .clip-head h3 { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-size: 19px;
+    font-weight: 600; letter-spacing: -0.015em; }
   .rowlabel {
     font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--muted);
     margin: 16px 0 8px; letter-spacing: .04em; text-transform: uppercase;
