@@ -117,7 +117,8 @@
     font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .06em;
     text-transform: uppercase; color: var(--muted); margin-right: 2px; white-space: nowrap;
   }
-  .tabs { flex-direction: column; align-items: flex-start; gap: 10px; }
+  /* the results bar stacks its per-dataset groups; a flat bar (retargeting) still wraps */
+  .tabs:has(.tabgroup) { flex-direction: column; align-items: flex-start; gap: 10px; }
   .note { color: var(--muted); font-size: 15px; margin-top: 12px; max-width: 78ch; }
   footer { margin-top: 96px; text-align: center; color: var(--muted); font-size: 14px; }
   footer .hand-rule { width: 60px; margin-bottom: 18px; }
@@ -812,13 +813,48 @@
 
 <section id="retargeting">
   <h2>Retargeting to robot hands</h2>
-  <p class="sub">Both hands retargeted to the Inspire RH56 with DexPilot vector retargeting and replayed in the world frame, next to the input video. Identical solver settings for every method, and the low-pass filter is disabled so the smoothness reflects the tracker rather than the filter. The two panels of a pair share one camera, and a hand is left undrawn on frames where the method reports no detection.</p>
+  <p class="sub">Predicted hand motion retargeted to a dexterous robot hand with DexPilot vector retargeting and replayed in the world frame, beside the input video. Identical solver settings for every method, and the low-pass filter is disabled so the smoothness reflects the tracker rather than the filter. Within a pair both panels share one camera, and a hand is left undrawn on frames where the method reports no detection.</p>
+  <div class="tabs" role="tablist" data-sec="retargeting">
+    <button class="tab" role="tab" aria-selected="true" data-i="0">ARCTIC &middot; Inspire</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="1">HOT3D Quest &middot; Shadow</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="2">HOT3D Aria &middot; Inspire</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="3">EgoDex &middot; Sharpa</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="4">EgoDex &middot; WUJI</button>
+  </div>
   <div class="panel" data-sec="retargeting">
     <div class="clip panel-item" data-i="0">
-      <div class="clip-head"><h3>ARCTIC ego &mdash; lifting a box</h3><span class="chip">RLHND (ours)</span></div>
+      <div class="clip-head"><h3>ARCTIC ego &mdash; lifting a box</h3><span class="chip">Inspire RH56</span></div>
       <div class="grid2">
-        <figure class="ours"><video data-src="videos/retarget_arctic1_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
-        <figure><video data-src="videos/retarget_arctic1_hawor.mp4" loop muted playsinline preload="none"></video><figcaption>HaWoR</figcaption></figure>
+        <figure><video data-src="videos/retarget_arctic-inspire_hawor.mp4" loop muted playsinline preload="none"></video><figcaption>HaWoR</figcaption></figure>
+        <figure class="ours"><video data-src="videos/retarget_arctic-inspire_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+      </div>
+    </div>
+    <div class="clip panel-item" data-i="1" hidden>
+      <div class="clip-head"><h3>HOT3D Quest &mdash; two-handed manipulation</h3><span class="chip">Shadow</span></div>
+      <div class="grid2">
+        <figure><video data-src="videos/retarget_quest-shadow_hawor.mp4" loop muted playsinline preload="none"></video><figcaption>HaWoR</figcaption></figure>
+        <figure class="ours"><video data-src="videos/retarget_quest-shadow_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+      </div>
+    </div>
+    <div class="clip panel-item" data-i="2" hidden>
+      <div class="clip-head"><h3>HOT3D Aria &mdash; handling an object</h3><span class="chip">Inspire RH56</span></div>
+      <div class="grid2">
+        <figure><video data-src="videos/retarget_aria-inspire_hawor.mp4" loop muted playsinline preload="none"></video><figcaption>HaWoR</figcaption></figure>
+        <figure class="ours"><video data-src="videos/retarget_aria-inspire_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+      </div>
+    </div>
+    <div class="clip panel-item" data-i="3" hidden>
+      <div class="clip-head"><h3>EgoDex &mdash; lint-rolling a shirt</h3><span class="chip">Sharpa Wave</span></div>
+      <div class="grid2">
+        <figure><video data-src="videos/retarget_egodex-sharpa_hawor.mp4" loop muted playsinline preload="none"></video><figcaption>HaWoR</figcaption></figure>
+        <figure class="ours"><video data-src="videos/retarget_egodex-sharpa_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+      </div>
+    </div>
+    <div class="clip panel-item" data-i="4" hidden>
+      <div class="clip-head"><h3>EgoDex &mdash; gathering dice</h3><span class="chip">WUJI v2</span></div>
+      <div class="grid2">
+        <figure><video data-src="videos/retarget_egodex-wuji_hawor.mp4" loop muted playsinline preload="none"></video><figcaption>HaWoR</figcaption></figure>
+        <figure class="ours"><video data-src="videos/retarget_egodex-wuji_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
       </div>
     </div>
   </div>
