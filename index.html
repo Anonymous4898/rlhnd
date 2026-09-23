@@ -163,11 +163,11 @@
     jointly estimates hand pose and realistic tactile information from monocular egocentric
     videos. RLHND leverages the clean-latent features from a pre-trained foundation model, i.e.,
     Cosmos&nbsp;3, to capture strong priors on hand motion and hand-object interactions. For pose
-    estimation, RLHND (i) predicts hand poses with anatomically plausible 21-DoF joint angles and
+    estimation, RLHND (i) predicts hand poses with anatomically plausible joint angles and
     (ii) enables optional conditioning on the shape parameter to maintain consistent hand shape
     within the same video and even across videos recorded by the same actor. For tactile
-    estimation, we propose one-way attention, where the tactile estimation stream attends to
-    pose-stream features but not vice versa. We further adopt LBS-based feature spreading to
+    estimation, a separate tactile expert stream, trained with the pose stream frozen, predicts
+    dense contact and force over the hand surface. We further adopt LBS-based feature spreading to
     enable vertex-wise feature extraction without costly per-vertex attention. RLHND achieves
     state-of-the-art performance across various benchmark datasets for pose estimation, while
     also achieving state-of-the-art performance in contact and force estimation. Moreover, we
