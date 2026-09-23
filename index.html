@@ -813,7 +813,7 @@
 
 <section id="retargeting">
   <h2>Retargeting to robot hands</h2>
-  <p class="sub">Predicted hand motion retargeted to a dexterous robot hand with DexPilot vector retargeting and replayed in the world frame, beside the input video. Identical solver settings for every method, and the low-pass filter is disabled so the smoothness reflects the tracker rather than the filter. Within a pair both panels share one camera, and a hand is left undrawn on frames where the method reports no detection.</p>
+  <p class="sub">Predicted hand motion retargeted to a dexterous robot hand with DexPilot vector retargeting and replayed in the world frame, beside the input video. Identical solver settings for every method, and the low-pass filter is disabled so the smoothness reflects the tracker rather than the filter. Within a pair both panels share one camera, and a hand is left undrawn on frames where the method reports no detection. Both hands are shown wherever the clip is two-handed.</p>
   <div class="tabs" role="tablist" data-sec="retargeting">
     <button class="tab" role="tab" aria-selected="true" data-i="0">ARCTIC &middot; Inspire</button>
     <button class="tab" role="tab" aria-selected="false" data-i="1">HOT3D Quest &middot; Shadow</button>
@@ -837,7 +837,7 @@
       </div>
     </div>
     <div class="clip panel-item" data-i="2" hidden>
-      <div class="clip-head"><h3>HOT3D Aria &mdash; handling an object</h3><span class="chip">Inspire RH56</span></div>
+      <div class="clip-head"><h3>HOT3D Aria &mdash; handling an object (right hand)</h3><span class="chip">Inspire RH56</span></div>
       <div class="grid2">
         <figure><video data-src="videos/retarget_aria-inspire_hawor.mp4" loop muted playsinline preload="none"></video><figcaption>HaWoR</figcaption></figure>
         <figure class="ours"><video data-src="videos/retarget_aria-inspire_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
