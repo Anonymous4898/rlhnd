@@ -135,7 +135,7 @@
   <div class="btns">
     <a class="btn" href="#" aria-disabled="true">Paper (soon)</a>
     <a class="btn" href="#" aria-disabled="true">Code (soon)</a>
-    <a class="btn" href="#results">Results</a>
+    <a class="btn" href="#results">Motion</a>
     <a class="btn" href="#tactile">Contact &amp; force</a>
   </div>
 </header>
@@ -174,7 +174,7 @@
 </section>
 
 <section id="results">
-  <h2>Qualitative comparison</h2>
+  <h2>Motion reconstruction</h2>
 
   <div class="tabs" role="tablist" data-sec="results">
     <div class="tabgroup"><span class="tabgroup-label">EgoDex</span>
@@ -789,23 +789,29 @@
 
 <section id="tactile">
   <h2>Contact and force</h2>
-  <p class="sub">Per-vertex contact and force painted on the canonical MANO hand, so every method is read the same way: grey is no contact, red is contact, and the force maps run black to bright over each clip's peak. HACO and HOPE are the released baselines, run by us on the same frames. OpenTouch ground truth comes from its pressure sensor; EgoDex has no pressure labels, so those clips compare predictions only.</p>
+  <p class="sub">Per-vertex contact and force painted on the canonical MANO hand, so every method is read the same way: grey is no contact, red is contact, and the force maps run black to bright over each clip's peak. HACO and HOPE are the released baselines, run by us on the same frames. OpenTouch and PressureVisionDB ground truth comes from their pressure sensors; EgoDex has no pressure labels, so those clips show our prediction alone.</p>
   <div class="tabs" role="tablist" data-sec="tactile">
-    <button class="tab" role="tab" aria-selected="true" data-i="0">OpenTouch &middot; kitchen</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="1">OpenTouch &middot; plants</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="2">OpenTouch &middot; fab lab</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="3">OpenTouch &middot; store</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="4">OpenTouch &middot; bench</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="5">PVDB &middot; typing</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="6">PVDB &middot; writing</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="7">PVDB &middot; writing 2</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="8">PVDB &middot; writing 3</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="9">PVDB &middot; pressing</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="10">EgoDex &middot; tiles</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="11">EgoDex &middot; lid</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="12">EgoDex &middot; desk</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="13">EgoDex &middot; blocks</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="14">EgoDex &middot; connectors</button>
+    <div class="tabgroup"><span class="tabgroup-label">OpenTouch</span>
+      <button class="tab" role="tab" aria-selected="true" data-i="0">kitchen sink</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="1">pots on a shelf</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="2">tool wall</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="3">kitchenware aisle</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="4">workbench</button>
+    </div>
+    <div class="tabgroup"><span class="tabgroup-label">PVDB</span>
+      <button class="tab" role="tab" aria-selected="false" data-i="5">typing</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="6">writing</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="7">writing 2</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="8">writing 3</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="9">pressing</button>
+    </div>
+    <div class="tabgroup"><span class="tabgroup-label">EgoDex</span>
+      <button class="tab" role="tab" aria-selected="false" data-i="10">magnetic tiles</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="11">lid off a tub</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="12">model desk</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="13">soft blocks</button>
+      <button class="tab" role="tab" aria-selected="false" data-i="14">connectors</button>
+    </div>
   </div>
   <div class="panel" data-sec="tactile">
     <div class="clip panel-item" data-i="0">
