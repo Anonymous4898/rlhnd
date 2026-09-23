@@ -136,6 +136,7 @@
     <a class="btn" href="#" aria-disabled="true">Paper (soon)</a>
     <a class="btn" href="#" aria-disabled="true">Code (soon)</a>
     <a class="btn" href="#results">Results</a>
+    <a class="btn" href="#tactile">Contact &amp; force</a>
   </div>
 </header>
 
@@ -782,6 +783,25 @@
         <figure><video data-src="videos/arctic21_dreamhand_3d.mp4" loop muted playsinline preload="none"></video><figcaption>ACE-Ego-Hand</figcaption></figure>
         <figure class="ours"><video data-src="videos/arctic21_rlhnd_3d.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="tactile">
+  <h2>Contact and force</h2>
+  <p class="sub">Per-vertex contact and force predicted on the OpenTouch test split, painted on the canonical MANO hand so every method is read the same way: grey is no contact, red is contact, and the force maps run black to bright over the clip's peak. HACO is the released HaMeR-based contact model; ground truth comes from OpenTouch's pressure sensor.</p>
+  <div class="tabs" role="tablist" data-sec="tactile">
+    <button class="tab" role="tab" aria-selected="true" data-i="0">OpenTouch &middot; kitchen sink</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="1">OpenTouch &middot; grocery shelf</button>
+  </div>
+  <div class="panel" data-sec="tactile">
+    <div class="clip panel-item" data-i="0">
+      <div class="clip-head"><h3>OpenTouch &mdash; reaching into a kitchen sink</h3><span class="chip">contact + force</span></div>
+      <figure class="ours"><video data-src="videos/tactile_opentouch_kitchen.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+    </div>
+    <div class="clip panel-item" data-i="1" hidden>
+      <div class="clip-head"><h3>OpenTouch &mdash; handling pots on a grocery shelf</h3><span class="chip">contact + force</span></div>
+      <figure class="ours"><video data-src="videos/tactile_opentouch_grocery.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
     </div>
   </div>
 </section>
