@@ -788,13 +788,15 @@
 
 <section id="retargeting">
   <h2>Retargeting to robot hands</h2>
-  <p class="sub">Predicted hand motion retargeted to a dexterous robot hand with DexPilot vector retargeting and replayed in the world frame, beside the input video. Identical solver settings for every method, and the low-pass filter is disabled so the smoothness reflects the tracker rather than the filter. Each pair is viewed from the wearer's own head camera, so the robot hands are seen from the angle the hands were recorded from. Within a pair both panels share one camera, and a hand is left undrawn on frames where the method reports no detection.</p>
+  <p class="sub">Predicted hand motion retargeted to a dexterous robot hand with DexPilot vector retargeting and replayed in the world frame, beside the input video. Identical solver settings for every method, and the low-pass filter is disabled so the smoothness reflects the tracker rather than the filter. Within a pair both panels share one camera, and a hand is left undrawn on frames where the method reports no detection.</p>
   <div class="tabs" role="tablist" data-sec="retargeting">
     <button class="tab" role="tab" aria-selected="true" data-i="0">ARCTIC &middot; Inspire</button>
     <button class="tab" role="tab" aria-selected="false" data-i="1">HOT3D Quest &middot; Shadow</button>
     <button class="tab" role="tab" aria-selected="false" data-i="2">HOT3D Aria &middot; Inspire</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="3">EgoDex &middot; Sharpa</button>
-    <button class="tab" role="tab" aria-selected="false" data-i="4">EgoDex &middot; WUJI</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="3">EgoDex &middot; lint roll</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="4">EgoDex &middot; Jenga</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="5">EgoDex &middot; blocks</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="6">EgoDex &middot; stool</button>
   </div>
   <div class="panel" data-sec="retargeting">
     <div class="clip panel-item" data-i="0">
@@ -830,6 +832,20 @@
       <div class="grid2">
         <figure><video data-src="videos/retarget_egodex-wuji_hawor.mp4" loop muted playsinline preload="none"></video><figcaption>HaWoR</figcaption></figure>
         <figure class="ours"><video data-src="videos/retarget_egodex-wuji_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+      </div>
+    </div>
+    <div class="clip panel-item" data-i="5" hidden>
+      <div class="clip-head"><h3>EgoDex &mdash; assembling soft blocks</h3><span class="chip">Inspire RH56</span></div>
+      <div class="grid2">
+        <figure><video data-src="videos/retarget_egodex-inspire_hawor.mp4" loop muted playsinline preload="none"></video><figcaption>HaWoR</figcaption></figure>
+        <figure class="ours"><video data-src="videos/retarget_egodex-inspire_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+      </div>
+    </div>
+    <div class="clip panel-item" data-i="6" hidden>
+      <div class="clip-head"><h3>EgoDex &mdash; assembling a stool</h3><span class="chip">Sharpa Wave</span></div>
+      <div class="grid2">
+        <figure><video data-src="videos/retarget_egodex-shadow_hawor.mp4" loop muted playsinline preload="none"></video><figcaption>HaWoR</figcaption></figure>
+        <figure class="ours"><video data-src="videos/retarget_egodex-shadow_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
       </div>
     </div>
   </div>
