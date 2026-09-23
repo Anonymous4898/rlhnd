@@ -77,6 +77,13 @@
   @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
   .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
   @media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } }
+  /* tactile panels are one narrow hand each, so they pack tighter than the video grids;
+     the input frame is wider, so let it span two columns. */
+  .gridt { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; align-items: start; }
+  .gridt figure:first-child { grid-column: span 2; }
+  @media (max-width: 1100px) { .gridt { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 700px)  { .gridt { grid-template-columns: repeat(2, 1fr); }
+                               .gridt figure:first-child { grid-column: span 2; } }
   figure {
     background: var(--card); border: 1px solid var(--line); border-radius: 10px;
     overflow: hidden; display: flex; flex-direction: column;
@@ -816,63 +823,163 @@
   <div class="panel" data-sec="tactile">
     <div class="clip panel-item" data-i="0">
       <div class="clip-head"><h3>OpenTouch &mdash; reaching into a kitchen sink</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_ot_kitchen.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; HOPE &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_ot_kitchen_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_kitchen_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Ground truth</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_kitchen_haco.mp4" loop muted playsinline preload="none"></video><figcaption>HACO</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_kitchen_hope.mp4" loop muted playsinline preload="none"></video><figcaption>HOPE</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_ot_kitchen_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_kitchen_force_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Force GT</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_ot_kitchen_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="1" hidden>
       <div class="clip-head"><h3>OpenTouch &mdash; handling pots on a shelf</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_ot_plant.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; HOPE &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_ot_plant_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_plant_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Ground truth</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_plant_haco.mp4" loop muted playsinline preload="none"></video><figcaption>HACO</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_plant_hope.mp4" loop muted playsinline preload="none"></video><figcaption>HOPE</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_ot_plant_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_plant_force_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Force GT</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_ot_plant_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="2" hidden>
       <div class="clip-head"><h3>OpenTouch &mdash; taking a level off a tool wall</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_ot_fablab3.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; HOPE &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_ot_fablab3_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_fablab3_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Ground truth</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_fablab3_haco.mp4" loop muted playsinline preload="none"></video><figcaption>HACO</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_fablab3_hope.mp4" loop muted playsinline preload="none"></video><figcaption>HOPE</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_ot_fablab3_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_fablab3_force_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Force GT</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_ot_fablab3_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="3" hidden>
       <div class="clip-head"><h3>OpenTouch &mdash; reaching into a kitchenware aisle</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_ot_target.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; HOPE &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_ot_target_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_target_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Ground truth</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_target_haco.mp4" loop muted playsinline preload="none"></video><figcaption>HACO</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_target_hope.mp4" loop muted playsinline preload="none"></video><figcaption>HOPE</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_ot_target_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_target_force_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Force GT</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_ot_target_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="4" hidden>
       <div class="clip-head"><h3>OpenTouch &mdash; lifting a block at a workbench</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_ot_fablab2.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; HOPE &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_ot_fablab2_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_fablab2_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Ground truth</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_fablab2_haco.mp4" loop muted playsinline preload="none"></video><figcaption>HACO</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_fablab2_hope.mp4" loop muted playsinline preload="none"></video><figcaption>HOPE</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_ot_fablab2_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+        <figure><video data-src="videos/tactile_ot_fablab2_force_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Force GT</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_ot_fablab2_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="5" hidden>
       <div class="clip-head"><h3>PressureVisionDB &mdash; typing on a tablet</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_pv_ipad1.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; HOPE &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_pv_ipad1_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_ipad1_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Ground truth</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_ipad1_haco.mp4" loop muted playsinline preload="none"></video><figcaption>HACO</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_ipad1_hope.mp4" loop muted playsinline preload="none"></video><figcaption>HOPE</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_pv_ipad1_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_ipad1_force_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Force GT</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_pv_ipad1_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="6" hidden>
       <div class="clip-head"><h3>PressureVisionDB &mdash; tracing a word with one finger</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_pv_draw1.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; HOPE &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_pv_draw1_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw1_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Ground truth</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw1_haco.mp4" loop muted playsinline preload="none"></video><figcaption>HACO</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw1_hope.mp4" loop muted playsinline preload="none"></video><figcaption>HOPE</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_pv_draw1_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw1_force_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Force GT</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_pv_draw1_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="7" hidden>
       <div class="clip-head"><h3>PressureVisionDB &mdash; tracing a word with one finger</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_pv_draw2.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; HOPE &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_pv_draw2_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw2_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Ground truth</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw2_haco.mp4" loop muted playsinline preload="none"></video><figcaption>HACO</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw2_hope.mp4" loop muted playsinline preload="none"></video><figcaption>HOPE</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_pv_draw2_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw2_force_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Force GT</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_pv_draw2_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="8" hidden>
       <div class="clip-head"><h3>PressureVisionDB &mdash; tracing a word with one finger</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_pv_draw3.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; HOPE &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_pv_draw3_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw3_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Ground truth</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw3_haco.mp4" loop muted playsinline preload="none"></video><figcaption>HACO</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw3_hope.mp4" loop muted playsinline preload="none"></video><figcaption>HOPE</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_pv_draw3_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_draw3_force_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Force GT</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_pv_draw3_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="9" hidden>
       <div class="clip-head"><h3>PressureVisionDB &mdash; pressing with a cupped hand</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_pv_press.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; ground truth &middot; HACO &middot; HOPE &middot; RLHND (ours) &middot; force GT &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_pv_press_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_press_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Ground truth</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_press_haco.mp4" loop muted playsinline preload="none"></video><figcaption>HACO</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_press_hope.mp4" loop muted playsinline preload="none"></video><figcaption>HOPE</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_pv_press_ours.mp4" loop muted playsinline preload="none"></video><figcaption>RLHND (ours)</figcaption></figure>
+        <figure><video data-src="videos/tactile_pv_press_force_gt.mp4" loop muted playsinline preload="none"></video><figcaption>Force GT</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_pv_press_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="10" hidden>
       <div class="clip-head"><h3>EgoDex &mdash; pulling magnetic tiles apart</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_eg_tiles.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; contact (ours) &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_eg_tiles_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_eg_tiles_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Contact (ours)</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_eg_tiles_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="11" hidden>
       <div class="clip-head"><h3>EgoDex &mdash; taking a lid off a tub</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_eg_lid.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; contact (ours) &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_eg_lid_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_eg_lid_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Contact (ours)</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_eg_lid_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="12" hidden>
       <div class="clip-head"><h3>EgoDex &mdash; assembling a model desk</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_eg_desk.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; contact (ours) &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_eg_desk_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_eg_desk_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Contact (ours)</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_eg_desk_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="13" hidden>
       <div class="clip-head"><h3>EgoDex &mdash; building a row of soft blocks</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_eg_legos.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; contact (ours) &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_eg_legos_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_eg_legos_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Contact (ours)</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_eg_legos_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
     <div class="clip panel-item" data-i="14" hidden>
       <div class="clip-head"><h3>EgoDex &mdash; joining two connector pieces</h3><span class="chip">contact + force</span></div>
-      <figure class="ours"><video data-src="videos/tactile_eg_structures.mp4" loop muted playsinline preload="none"></video><figcaption>Input &middot; contact (ours) &middot; force (ours)</figcaption></figure>
+      <div class="gridt">
+        <figure><video data-src="videos/tactile_eg_structures_input.mp4" loop muted playsinline preload="none"></video><figcaption>Input</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_eg_structures_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Contact (ours)</figcaption></figure>
+        <figure class="ours"><video data-src="videos/tactile_eg_structures_force_ours.mp4" loop muted playsinline preload="none"></video><figcaption>Force (ours)</figcaption></figure>
+      </div>
     </div>
   </div>
 </section>
