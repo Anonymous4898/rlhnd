@@ -137,7 +137,7 @@
 
 <header>
   <img class="logo" src="logo.svg" alt="RLHND">
-  <h1 class="subtitle">Realistic Hand Motion and Tactile<br>Reconstruction from Monocular Video</h1>
+  <h1 class="subtitle">Video Foundation Models as<br>Physically Grounded Hand Trackers<br>for Robot Learning</h1>
   <div class="hand-rule" aria-hidden="true"></div>
   <p class="authors"><span class="anon">Anonymous authors &mdash; under review</span></p>
   <div class="btns">
@@ -176,22 +176,24 @@
   <h2>Abstract</h2>
   <p>
     Recently, approaches that leverage human video datasets for robot policy training have become
-    increasingly prevalent. However, inaccurate hand pose estimation and the lack of physical
-    information, e.g., tactile information, make it difficult to effectively utilize human videos
-    for robot policy training. To this end, we propose RLHND, a novel hand tracking model that
-    jointly estimates hand pose and realistic tactile information from monocular egocentric
-    videos. RLHND leverages the clean-latent features from a pre-trained foundation model, i.e.,
-    Cosmos&nbsp;3, to capture strong priors on hand motion and hand-object interactions. For pose
-    estimation, RLHND (i) predicts hand poses with anatomically plausible joint angles and
-    (ii) enables optional conditioning on the shape parameter to maintain consistent hand shape
-    within the same video and even across videos recorded by the same actor. For tactile
+    increasingly prevalent. However, most existing hand trackers regress pose from cropped frames
+    with limited priors on hand motion and object interaction, resulting in inaccurate and
+    physically inconsistent estimates. Moreover, the lack of physical cues, e.g., contact and force,
+    limits the use of human videos for robot policy training. To this end, we propose RLHND, a video
+    foundation model-based hand tracking model that jointly estimates hand pose and realistic
+    tactile information from monocular egocentric videos. RLHND turns the pre-trained Cosmos&nbsp;3
+    video diffusion backbone into a deterministic clip-level feature extractor via clean-latent
+    conditioning, carrying its learned priors on hand motion and hand-object interaction into
+    tracking. For pose estimation, RLHND (i) predicts hand poses with anatomically plausible joint
+    angles and (ii) enables optional conditioning on the shape parameter to maintain consistent hand
+    shape within the same video and even across videos recorded by the same actor. For tactile
     estimation, a separate tactile expert stream, trained with the pose stream frozen, predicts
     dense contact and force over the hand surface. We further adopt LBS-based feature spreading to
-    enable vertex-wise feature extraction without costly per-vertex attention. RLHND achieves
-    state-of-the-art performance across various benchmark datasets for pose estimation, while
-    also achieving state-of-the-art performance in contact and force estimation. Moreover, we
-    demonstrate the utility of RLHND for robot learning through retargeting results and
-    real-world robot experiments. The code will be publicly released here after the review.
+    enable vertex-wise feature extraction without costly per-vertex attention. RLHND achieves state-o
+    f-the-art performance across various benchmark datasets for pose estimation, while also
+    achieving state-of-the-art performance in contact and force estimation. Moreover, we demonstrate
+    the utility of RLHND for robot learning through retargeting results and real-world robot
+    experiments. The code will be publicly released here after the review.
   </p>
 </section>
 
