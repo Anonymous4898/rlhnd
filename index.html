@@ -914,9 +914,9 @@
     f1:    { title: 'Vertex-level contact F1 ↑', note: 'mean of OpenTouch, DexYCB, HOT3D, ARCTIC', dec: 3, ldec: 3, max: 0.8,
              m: ['HACO', 'HOPE', 'RLHND (ours)'], d: ['OpenTouch', 'DexYCB', 'HOT3D', 'ARCTIC'],
              v: [[0.373, 0.543, 0.244, 0.580], [0.663, 0.506, 0.197, 0.591], [0.696, 0.572, 0.589, 0.602]] },
-    force: { title: 'Force RMSE (kPa) ↓', note: 'mean of OpenTouch, PVDB', dec: 3, ldec: 2, max: 4,
-             m: ['HACO', 'HOPE', 'RLHND (ours)'], d: ['OpenTouch', 'PVDB'],
-             v: [null, [5.388, 2.091], [2.508, 2.066]] }
+    force: { title: 'Force RMSE (kPa) ↓', note: 'mean of OpenTouch, PVDB', dec: 3, ldec: 2, max: 6,
+             m: ['PressureVision', 'HOPE', 'RLHND (ours)'], d: ['OpenTouch', 'PVDB'],
+             v: [[6.190, 3.726], [5.388, 2.091], [2.508, 2.066]] }
   };
   function mean(a) { return a.reduce(function (x, y) { return x + y; }, 0) / a.length; }
   var NS = 'http://www.w3.org/2000/svg';
