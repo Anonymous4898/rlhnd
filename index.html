@@ -527,7 +527,6 @@
 
 <section id="tactile">
   <h2>Contact and force</h2>
-  <p class="sub">Per-vertex contact and force painted on the canonical MANO hand, so every method is read the same way: grey is no contact, red is contact, and the force maps run black to bright over each clip's peak. HACO and HOPE are the released baselines, run by us on the same frames. OpenTouch and PressureVisionDB ground truth comes from their pressure sensors; EgoDex has no pressure labels, so those clips show our prediction alone.</p>
   <div class="tabs" role="tablist" data-sec="tactile">
     <div class="tabgroup"><span class="tabgroup-label">OpenTouch</span>
       <button class="tab" role="tab" aria-selected="true" data-i="0">kitchen sink</button>
@@ -717,7 +716,7 @@
 
 <section id="robot">
   <h2>Real-robot demos</h2>
-  <p class="sub">Real-robot rollouts of DPP + RLHND on an RB-Y1 with WUJI hands. The Dexterous Point Policy is trained on human demonstrations labelled by RLHND, mixed with robot teleoperation episodes. One rollout per task: four pick-and-place tasks and two bimanual tasks.</p>
+  <p class="sub">Real-robot rollouts of DPP + RLHND on an RB-Y1 with WUJI hands.</p>
   <div class="tabs" role="tablist" data-sec="robot">
     <button class="tab" role="tab" aria-selected="true" data-i="0">PnP - bottle</button>
     <button class="tab" role="tab" aria-selected="false" data-i="1">PnP - box</button>
@@ -750,7 +749,7 @@
 
 <section id="retargeting">
   <h2>Retargeting to robot hands</h2>
-  <p class="sub">Predicted hand motion retargeted to a dexterous robot hand with DexPilot vector retargeting and replayed in the world frame, beside the input video. Identical solver settings for every method, and the low-pass filter is disabled so the smoothness reflects the tracker rather than the filter. Within a pair both panels share one camera, and a hand is left undrawn on frames where the method reports no detection.</p>
+  <p class="sub">Predicted hand motion retargeted to a dexterous robot hand with DexPilot vector retargeting.</p>
   <div class="tabs" role="tablist" data-sec="retargeting">
     <button class="tab" role="tab" aria-selected="true" data-i="0">ARCTIC &middot; Inspire</button>
     <button class="tab" role="tab" aria-selected="false" data-i="1">HOT3D Quest &middot; Shadow</button>
