@@ -102,7 +102,7 @@
     font-family: "IBM Plex Mono", monospace;
   }
   /* quantitative bar charts: baselines in neutral greys, ours in the page teal */
-  .qgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 36px; margin-top: 8px; }
+  .qgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 36px; margin-top: 8px; }
   @media (max-width: 800px) { .qgrid { grid-template-columns: 1fr; } }
   .qrow-label { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: space-between;
     flex-wrap: wrap; gap: 8px 20px; margin-top: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
@@ -119,7 +119,8 @@
   .qchart .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 4; }
   .qchart .base { stroke: #B4B7BC; stroke-width: 1; }
   .qchart .tick { fill: var(--muted); font-size: 11px; font-family: "IBM Plex Mono", monospace; }
-  .qchart .glabel { fill: var(--ink); font-size: 12.5px; font-weight: 500; }
+  .qchart .glabel { fill: var(--ink); font-size: 12px; font-weight: 500; }
+  .qchart .glabel.ours { font-weight: 700; }
   .qchart .val { fill: var(--ink); font-size: 11px; font-family: "IBM Plex Mono", monospace; }
   .qchart .val.ours { font-weight: 600; }
   .qchart .na { fill: var(--muted); font-size: 11px; font-family: "IBM Plex Mono", monospace; }
@@ -231,18 +232,13 @@
 
 <section id="quant">
   <h2>Quantitative results</h2>
-  <p class="sub">Key numbers from the paper's main tables against the strongest baselines.</p>
+  <p class="sub">Key numbers from the paper's main tables, averaged over the benchmarks.</p>
   <div class="qgrid">
-    <div class="qrow-label"><h3>Motion reconstruction</h3>
-      <ul class="qlegend"><li><span class="sw" style="background:#C3C6CB"></span>HaWoR</li><li><span class="sw" style="background:#80858C"></span>ACE-Ego-Hand</li><li><span class="sw" style="background:var(--ours)"></span>RLHND (ours)</li></ul></div>
     <figure class="qchart" data-chart="mpjpe"></figure>
-    <figure class="qchart" data-chart="jitter"></figure>
-    <div class="qrow-label"><h3>Contact and force</h3>
-      <ul class="qlegend"><li><span class="sw" style="background:#C3C6CB"></span>HACO</li><li><span class="sw" style="background:#80858C"></span>HOPE</li><li><span class="sw" style="background:var(--ours)"></span>RLHND (ours)</li></ul></div>
     <figure class="qchart" data-chart="f1"></figure>
     <figure class="qchart" data-chart="force"></figure>
   </div>
-  <details class="qtables"><summary>Show the numbers</summary><div id="qtables"></div></details>
+  <details class="qtables"><summary>Show the per-benchmark numbers</summary><div id="qtables"></div></details>
   <div class="qtip" id="qtip"></div>
 </section>
 
@@ -910,17 +906,19 @@
 <script>
 (function () {
   var C = ['#C3C6CB', '#80858C', '#50EBCE'];
-  var POSE = ['HaWoR', 'ACE-Ego-Hand', 'RLHND (ours)'], TAC = ['HACO', 'HOPE', 'RLHND (ours)'];
+  // per-benchmark numbers from the paper's tables; each chart shows their mean
   var charts = {
-    mpjpe:  { title: 'MPJPE-p (mm)', note: 'lower is better', m: POSE, dec: 1,
-              g: [['HOT3D', [41.53, 24.41, 13.01]], ['ARCTIC', [31.72, 14.86, 13.36]], ['EgoDex', [27.76, 20.95, 19.90]]] },
-    jitter: { title: 'Jitter', note: 'lower is better', m: POSE, dec: 1,
-              g: [['HOT3D', [26.13, 6.48, 4.38]], ['ARCTIC', [29.34, 3.52, 4.19]], ['EgoDex', [16.94, 3.01, 2.93]]] },
-    f1:     { title: 'Vertex-level contact F1', note: 'higher is better', m: TAC, dec: 3, ldec: 2, max: 1,
-              g: [['OpenTouch', [0.373, 0.663, 0.696]], ['DexYCB', [0.543, 0.506, 0.572]], ['HOT3D', [0.244, 0.197, 0.589]], ['ARCTIC', [0.580, 0.591, 0.602]]] },
-    force:  { title: 'Force RMSE (kPa)', note: 'lower is better \u00b7 HACO predicts no force', m: TAC, dec: 2,
-              g: [['OpenTouch', [null, 5.388, 2.508]], ['PVDB', [null, 2.091, 2.066]]] }
+    mpjpe: { title: 'MPJPE-p (mm) ↓', note: 'mean of HOT3D, ARCTIC, EgoDex', dec: 2, ldec: 1,
+             m: ['HaWoR', 'ACE-Ego-Hand', 'RLHND (ours)'], d: ['HOT3D', 'ARCTIC', 'EgoDex'],
+             v: [[41.53, 31.72, 27.76], [24.41, 14.86, 20.95], [13.01, 13.36, 19.90]] },
+    f1:    { title: 'Vertex-level contact F1 ↑', note: 'mean of OpenTouch, DexYCB, HOT3D, ARCTIC', dec: 3, ldec: 3, max: 0.8,
+             m: ['HACO', 'HOPE', 'RLHND (ours)'], d: ['OpenTouch', 'DexYCB', 'HOT3D', 'ARCTIC'],
+             v: [[0.373, 0.543, 0.244, 0.580], [0.663, 0.506, 0.197, 0.591], [0.696, 0.572, 0.589, 0.602]] },
+    force: { title: 'Force RMSE (kPa) ↓', note: 'mean of OpenTouch, PVDB', dec: 3, ldec: 2, max: 4,
+             m: ['HACO', 'HOPE', 'RLHND (ours)'], d: ['OpenTouch', 'PVDB'],
+             v: [null, [5.388, 2.091], [2.508, 2.066]] }
   };
+  function mean(a) { return a.reduce(function (x, y) { return x + y; }, 0) / a.length; }
   var NS = 'http://www.w3.org/2000/svg';
   function el(tag, attrs, text) {
     var e = document.createElementNS(NS, tag);
@@ -930,57 +928,53 @@
   }
   function niceMax(v) {
     var p = Math.pow(10, Math.floor(Math.log10(v))), n = v / p;
-    return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p;
+    return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 4 ? 4 : n <= 5 ? 5 : 10) * p;
   }
   var tip = document.getElementById('qtip');
   function build(fig, c) {
-    var W = 460, H = 250, L = 40, R = 8, T = 18, B = 30, pw = W - L - R, ph = H - T - B;
-    var all = []; c.g.forEach(function (g) { g[1].forEach(function (v) { if (v != null) { all.push(v); } }); });
-    var ymax = c.max || niceMax(Math.max.apply(null, all) * 1.08);
+    var W = 320, H = 240, L = 36, R = 6, T = 18, B = 30, pw = W - L - R, ph = H - T - B;
+    var avg = c.v.map(function (a) { return a ? mean(a) : null; });
+    var ymax = c.max || niceMax(Math.max.apply(null, avg.filter(function (x) { return x != null; })) * 1.1);
     fig.insertAdjacentHTML('beforeend', '<div class="qtitle">' + c.title + '</div><div class="qnote">' + c.note + '</div>');
     var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': c.title + ', ' + c.note });
     for (var i = 0; i <= 4; i++) {
-      var y = T + ph - ph * i / 4, v = ymax * i / 4;
+      var y = T + ph - ph * i / 4, t = ymax * i / 4;
       svg.appendChild(el('line', { x1: L, x2: W - R, y1: y, y2: y, 'class': i ? 'grid' : 'base' }));
-      svg.appendChild(el('text', { x: L - 6, y: y + 4, 'text-anchor': 'end', 'class': 'tick' }, +v.toFixed(c.max ? 2 : 1)));
+      svg.appendChild(el('text', { x: L - 6, y: y + 4, 'text-anchor': 'end', 'class': 'tick' }, +t.toFixed(2)));
     }
-    var gw = pw / c.g.length, bw = Math.min(30, gw * 0.8 / 3), gap = 2, bars = [];
-    c.g.forEach(function (g, gi) {
-      var x0 = L + gi * gw + (gw - 3 * bw - 2 * gap) / 2;
-      svg.appendChild(el('text', { x: L + gi * gw + gw / 2, y: H - 8, 'text-anchor': 'middle', 'class': 'glabel' }, g[0]));
-      g[1].forEach(function (v, mi) {
-        var x = x0 + mi * (bw + gap), cx = x + bw / 2;
-        if (v == null) {
-          svg.appendChild(el('text', { x: cx, y: T + ph - 5, 'text-anchor': 'middle', 'class': 'na' }, '\u2013'));
-          return;
-        }
-        var h = ph * v / ymax;
-        var r = el('rect', { x: x, width: bw, y: T + ph, height: 0, rx: 3, fill: C[mi], 'class': 'bar' });
-        var t = el('text', { x: cx, y: T + ph - 4, 'text-anchor': 'middle', 'class': 'val' + (mi === 2 ? ' ours' : ''), opacity: 0 },
-                   v.toFixed(c.ldec != null ? c.ldec : c.dec));
-        r.addEventListener('mousemove', function (e) {
-          tip.textContent = c.m[mi] + ' \u00b7 ' + g[0] + ': ' + v.toFixed(c.dec);
-          tip.style.left = (e.clientX + 12) + 'px'; tip.style.top = (e.clientY - 30) + 'px'; tip.style.opacity = 1;
-        });
-        r.addEventListener('mouseleave', function () { tip.style.opacity = 0; });
-        svg.appendChild(r); svg.appendChild(t);
-        bars.push({ r: r, t: t, h: h, base: T + ph });
+    var cw = pw / 3, bw = Math.min(46, cw * 0.62), bars = [];
+    avg.forEach(function (v, mi) {
+      var cx = L + cw * mi + cw / 2, x = cx - bw / 2;
+      svg.appendChild(el('text', { x: cx, y: H - 8, 'text-anchor': 'middle', 'class': 'glabel' + (mi === 2 ? ' ours' : '') }, c.m[mi]));
+      if (v == null) {
+        svg.appendChild(el('text', { x: cx, y: T + ph - 6, 'text-anchor': 'middle', 'class': 'na' }, 'n/a'));
+        return;
+      }
+      var r = el('rect', { x: x, width: bw, y: T + ph, height: 0, rx: 4, fill: C[mi], 'class': 'bar' });
+      var t = el('text', { x: cx, y: T + ph - 4, 'text-anchor': 'middle', 'class': 'val' + (mi === 2 ? ' ours' : ''), opacity: 0 },
+                 v.toFixed(c.ldec));
+      r.addEventListener('mousemove', function (e) {
+        tip.textContent = c.m[mi] + ': ' + v.toFixed(c.dec) + '  (' + c.d.map(function (d, k) { return d + ' ' + c.v[mi][k]; }).join(', ') + ')';
+        tip.style.left = (e.clientX + 12) + 'px'; tip.style.top = (e.clientY - 30) + 'px'; tip.style.opacity = 1;
       });
+      r.addEventListener('mouseleave', function () { tip.style.opacity = 0; });
+      svg.appendChild(r); svg.appendChild(t);
+      bars.push({ r: r, t: t, h: ph * v / ymax, base: T + ph });
     });
     fig.appendChild(svg);
     return bars;
   }
   function grow(bars, instant) {
-    var dur = 700, stagger = 45, t0 = null;
+    var dur = 800, stagger = 120, t0 = null;
     function frame(now) {
       if (t0 === null) { t0 = now; }
       var done = true;
       bars.forEach(function (b, i) {
         var f = instant ? 1 : Math.min(Math.max((now - t0 - i * stagger) / dur, 0), 1);
         if (f < 1) { done = false; }
-        var e = 1 - Math.pow(1 - f, 3), h = b.h * e;
+        var h = b.h * (1 - Math.pow(1 - f, 3));
         b.r.setAttribute('y', b.base - h); b.r.setAttribute('height', h);
-        b.t.setAttribute('y', b.base - h - 5); b.t.setAttribute('opacity', f > 0.6 ? 1 : 0);
+        b.t.setAttribute('y', b.base - h - 6); b.t.setAttribute('opacity', f > 0.6 ? 1 : 0);
       });
       if (!done) { requestAnimationFrame(frame); }
     }
@@ -1003,16 +997,17 @@
   } else {
     built.forEach(function (b) { grow(b.bars, true); });
   }
-  // plain-table view of the same numbers
+  // per-benchmark table view of the same numbers
   var html = '';
   Object.keys(charts).forEach(function (k) {
     var c = charts[k];
-    html += '<table><thead><tr><th>' + c.title + ' (' + c.note.split(' \u00b7')[0] + ')</th>' +
-      c.g.map(function (g) { return '<th>' + g[0] + '</th>'; }).join('') + '</tr></thead><tbody>';
+    html += '<table><thead><tr><th>' + c.title + '</th>' + c.d.map(function (d) { return '<th>' + d + '</th>'; }).join('') +
+      '<th>Mean</th></tr></thead><tbody>';
     c.m.forEach(function (m, mi) {
-      html += '<tr><td' + (mi === 2 ? ' class="ours"' : '') + '>' + m + '</td>' + c.g.map(function (g) {
-        var v = g[1][mi]; return '<td' + (mi === 2 ? ' class="ours"' : '') + '>' + (v == null ? '\u2013' : v.toFixed(c.dec)) + '</td>';
-      }).join('') + '</tr>';
+      var cls = mi === 2 ? ' class="ours"' : '', row = c.v[mi];
+      html += '<tr><td' + cls + '>' + m + '</td>' + c.d.map(function (d, j) {
+        return '<td' + cls + '>' + (row ? row[j].toFixed(c.dec) : '–') + '</td>';
+      }).join('') + '<td' + cls + '>' + (row ? mean(row).toFixed(c.dec) : '–') + '</td></tr>';
     });
     html += '</tbody></table>';
   });
